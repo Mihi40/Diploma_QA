@@ -43,6 +43,14 @@ public class CreditCardTest {
     }
 
     @Test
+    void unSuccessPaymentWithNullCardNumber() {
+        var cardInfo = DataHelper.getInvalidCardInfoWithNullCardNumber();
+        var creditPage = paymentPage.creditPayment(cardInfo);
+        creditPage.enterCardData(cardInfo);
+        creditPage.verifyInvalidFormat();
+    }
+
+    @Test
     void unSuccessPaymentWithEmptyMonthNumber() {
         var cardInfo = DataHelper.getInvalidCardInfoWithEmptyMonth("approved");
         var creditPage = paymentPage.creditPayment(cardInfo);
@@ -67,8 +75,24 @@ public class CreditCardTest {
     }
 
     @Test
+    void unSuccessPaymentWithNumberAndSymBolName() {
+        var cardInfo = DataHelper.getInvalidCardInfoWithNumberAndSymBolName("approved");
+        var creditPage = paymentPage.creditPayment(cardInfo);
+        creditPage.enterCardData(cardInfo);
+        creditPage.verifyNullName();
+    }
+
+    @Test
     void unSuccessPaymentWithEmptyCvc() {
         var cardInfo = DataHelper.getInvalidCardInfoWithEmptyCvc("approved");
+        var creditPage = paymentPage.creditPayment(cardInfo);
+        creditPage.enterCardData(cardInfo);
+        creditPage.verifyInvalidFormat();
+    }
+
+    @Test
+    void unSuccessPaymentWithNullCvc() {
+        var cardInfo = DataHelper.getInvalidCardInfoWithNullCvc("approved");
         var creditPage = paymentPage.creditPayment(cardInfo);
         creditPage.enterCardData(cardInfo);
         creditPage.verifyInvalidFormat();

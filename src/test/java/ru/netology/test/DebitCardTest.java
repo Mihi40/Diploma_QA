@@ -1,7 +1,6 @@
 package ru.netology.test;
 
 import org.junit.jupiter.api.AfterAll;
-//import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataHelper;
@@ -31,7 +30,7 @@ public class DebitCardTest {
         var debitPage = paymentPage.debitPayment(cardInfo);
         debitPage.enterCardData(cardInfo);
         debitPage.verifySuccessMessage();
-        assertEquals ("APPROVED", SQLHelper.getDebitStatus());
+        assertEquals("APPROVED", SQLHelper.getDebitStatus());
     }
 
     @Test
@@ -40,6 +39,14 @@ public class DebitCardTest {
         var debitPage = paymentPage.debitPayment(cardInfo);
         debitPage.enterCardData(cardInfo);
         debitPage.verifyInvalidFormat();
+    }
+
+    @Test
+    void unSuccessPaymentWithNullCardNumber() {
+        var cardInfo = DataHelper.getInvalidCardInfoWithNullCardNumber();
+        var creditPage = paymentPage.creditPayment(cardInfo);
+        creditPage.enterCardData(cardInfo);
+        creditPage.verifyInvalidFormat();
     }
 
     @Test
@@ -67,11 +74,27 @@ public class DebitCardTest {
     }
 
     @Test
+    void unSuccessPaymentWithNumberAndSymBolName() {
+        var cardInfo = DataHelper.getInvalidCardInfoWithNumberAndSymBolName("approved");
+        var creditPage = paymentPage.creditPayment(cardInfo);
+        creditPage.enterCardData(cardInfo);
+        creditPage.verifyNullName();
+    }
+
+    @Test
     void unSuccessPaymentWithEmptyCvc() {
         var cardInfo = DataHelper.getInvalidCardInfoWithEmptyCvc("approved");
         var debitPage = paymentPage.debitPayment(cardInfo);
         debitPage.enterCardData(cardInfo);
         debitPage.verifyInvalidFormat();
+    }
+
+    @Test
+    void unSuccessPaymentWithNullCvc() {
+        var cardInfo = DataHelper.getInvalidCardInfoWithNullCvc("approved");
+        var creditPage = paymentPage.creditPayment(cardInfo);
+        creditPage.enterCardData(cardInfo);
+        creditPage.verifyInvalidFormat();
     }
 
     @Test
@@ -89,6 +112,7 @@ public class DebitCardTest {
         debitPage.enterCardData(cardInfo);
         debitPage.verifyInvalidFormatMonth();
     }
+
     @Test
     void unSuccessPaymentWithInvalidYearNumber() {
         var cardInfo = DataHelper.getInvalidCardInfoWithInvalidYear("approved");
@@ -97,20 +121,20 @@ public class DebitCardTest {
         debitPage.verifyInvalidFormatYear();
     }
 
-       @Test
+    @Test
     void unSuccessPaymentWithInvalidCvc() {
         var cardInfo = DataHelper.getInvalidCardInfoWithInvalidCvc("approved");
         var debitPage = paymentPage.debitPayment(cardInfo);
         debitPage.enterCardData(cardInfo);
         debitPage.verifyInvalidFormat();
     }
+
     @Test
     void unSuccessPaymentDeclinedCard() {
         var cardInfo = new DataHelper().getValidCardInfo("declined");
         var debitPage = paymentPage.debitPayment(cardInfo);
         debitPage.enterCardData(cardInfo);
         debitPage.verifyErrorMessage();
-        assertEquals ("DECLINED", SQLHelper.getDebitStatus());
+        assertEquals("DECLINED", SQLHelper.getDebitStatus());
     }
-
 }
