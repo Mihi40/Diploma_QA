@@ -15,10 +15,10 @@ public class SQLHelper {
     }
 
     @SneakyThrows
-    public static Connection getConn() {
+    private static Connection getConn() {
         var dbUrl = System.getProperty("db.url");
-        String user = System.getProperty("user");
-        String password = System.getProperty("password");
+        var user = System.getProperty("user");
+        var password = System.getProperty("password");
         return DriverManager.getConnection(dbUrl, user, password);
     }
 
@@ -31,15 +31,15 @@ public class SQLHelper {
 
     @SneakyThrows
     public static String getDebitStatus() {
-        String statusSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1";
-        Connection conn = getConn();
+        var statusSQL = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1";
+        var conn = getConn();
         return runner.query(conn, statusSQL, new ScalarHandler<String>());
     }
 
     @SneakyThrows
     public static String getCreditStatus() {
-        String statusSQL = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1";
-        Connection conn = getConn();
+        var statusSQL = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1";
+        var conn = getConn();
         return runner.query(conn, statusSQL, new ScalarHandler<String>());
     }
 

@@ -1,5 +1,6 @@
 package ru.netology.test;
 
+import lombok.Value;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,8 @@ public class CreditCardTest {
 
     @BeforeEach
     void setUp() {
-        paymentPage = open("http://localhost:8080", PaymentPage.class);
+        var pageUrl = System.getProperty("page.url");
+        paymentPage = open(pageUrl, PaymentPage.class);
     }
 
     @Test
@@ -132,7 +134,7 @@ public class CreditCardTest {
 
     @Test
     void unSuccessPaymentDeclinedCard() {
-        var cardInfo = new DataHelper().getValidCardInfo("declined");
+        var cardInfo = new DataHelper().getInValidCardInfo("declined");
         var creditPage = paymentPage.creditPayment(cardInfo);
         creditPage.enterCardData(cardInfo);
         creditPage.verifyErrorMessage();

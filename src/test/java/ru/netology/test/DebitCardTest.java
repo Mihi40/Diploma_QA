@@ -21,7 +21,8 @@ public class DebitCardTest {
 
     @BeforeEach
     void setUp() {
-        paymentPage = open("http://localhost:8080", PaymentPage.class);
+        var pageUrl = System.getProperty("page.url");
+        paymentPage = open(pageUrl, PaymentPage.class);
     }
 
     @Test
@@ -131,7 +132,7 @@ public class DebitCardTest {
 
     @Test
     void unSuccessPaymentDeclinedCard() {
-        var cardInfo = new DataHelper().getValidCardInfo("declined");
+        var cardInfo = new DataHelper().getInValidCardInfo("declined");
         var debitPage = paymentPage.debitPayment(cardInfo);
         debitPage.enterCardData(cardInfo);
         debitPage.verifyErrorMessage();

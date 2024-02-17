@@ -8,7 +8,8 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class PaymentPage {
 
-    private final SelenideElement debitButton = $("button");
+    private final SelenideElement debitButton = $("button:nth-child(3)");
+    //private final SelenideElement debitButton = $("button");
     private final SelenideElement creditButton = $(byText("Купить в кредит"));
 
     public DebitPage debitPayment(DataHelper.CardInfo info) {
